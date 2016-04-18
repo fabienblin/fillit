@@ -12,9 +12,10 @@ typedef	struct	s_env
 	int		grid_size;
 	char	*grid;
 	t_list	*tetri_lst;
+	int		fd;
 }				t_env;
 
-void			ft_test_input(char *file_name);
+void			ft_test_input(t_env *env);
 void			ft_save_tetriminos(char *file_name, t_env *env);
 void			ft_solve(t_env *env);
 void			ft_print_solution(t_env *env);

@@ -98,26 +98,19 @@ void	ft_valid_figure(char *tetri)
 	}
 }
 
-void	ft_test_input(char *file_name)
+void	ft_test_input(t_env *env)
 {
 	char	tetri[20];
-	int		fd;
 	int		read_ret;
 
-	fd = open(file_name, O_RDONLY);
 	read_ret = 1;
 	while (read_ret == 1)
 	{
-		//tester le nombre de #
-		//tester la longueur de chaque ligne
-		//tester le nombre de lignes
-		//tester le \n final
-		//tester que la forme soit juste
-		read_ret = read(fd, tetri, 20);
+		read_ret = read(env->fd, tetri, 20);
 		ft_valid_count(tetri);
 		ft_valid_length(tetri);
 		ft_valid_figure(tetri);
-		read_ret = read(fd, tetri, 1);
+		read_ret = read(env->fd, tetri, 1);
 		if (read_ret && *tetri != '\n')
 			EXIT;
 	}
@@ -126,7 +119,5 @@ void	ft_test_input(char *file_name)
 		ft_putendl("test_input failed");
 		EXIT;
 	}
-	else if (read_ret == 0)
-		close(fd);
 }
 
