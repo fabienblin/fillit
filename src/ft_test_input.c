@@ -5,20 +5,19 @@ void	ft_valid_count(char *tetri)
 	int		count_full;
 	int		count_empt;
 	int		count_retu;
-	int		i;
 
 	count_full = 0;
 	count_empt = 0;
 	count_retu = 0;
-	i = ft_strlen(tetri);
-	while (i--)
+	while (*tetri)
 	{
-		if (tetri[i] == '#')
+		if (*tetri == '#')
 			count_full++;
-		if (tetri[i] == '.')
+		if (*tetri == '.')
 			count_empt++;
-		if (tetri[i] == '\n')
+		if (*tetri == '\n')
 			count_retu++;
+		tetri++;
 	}
 	if ((count_full != 4) 
 		|| (count_empt != 12) 
@@ -31,12 +30,10 @@ void	ft_valid_count(char *tetri)
 
 void	ft_valid_length(char *tetri)
 {
-	int		len;
 	int		i;
 
-	len = ft_strlen(tetri);
 	i = 0;
-	while (i < len)
+	while (i < 20)
 	{
 		if ((i % 5) < 4)
 		{
@@ -98,19 +95,22 @@ void	ft_valid_figure(char *tetri)
 	}
 }
 
-void	ft_test_input(t_env *env)
+void	ft_test_input(char *file_name)
 {
-	char	tetri[20];
+	char	tetri[21];
 	int		read_ret;
+	int		fd;
 
+	ft_bzero(tetri, 21);
 	read_ret = 1;
+	fd = open(file_name, O_RDONLY);
 	while (read_ret == 1)
 	{
-		read_ret = read(env->fd, tetri, 20);
+		read_ret = read(fd, tetri, 20);
 		ft_valid_count(tetri);
 		ft_valid_length(tetri);
 		ft_valid_figure(tetri);
-		read_ret = read(env->fd, tetri, 1);
+		read_ret = read(fd, tetri, 1);
 		if (read_ret && *tetri != '\n')
 			EXIT;
 	}
@@ -119,5 +119,5 @@ void	ft_test_input(t_env *env)
 		ft_putendl("test_input failed");
 		EXIT;
 	}
+	close(fd);
 }
-

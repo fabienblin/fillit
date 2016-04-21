@@ -15,8 +15,8 @@ typedef	struct	s_env
 	int		fd;
 }				t_env;
 
-void			ft_test_input(t_env *env);
-void			ft_save_tetriminos(char *file_name, t_env *env);
+void			ft_test_input(char *file_name);
+void			ft_save_tetriminos(t_env *env, char *file_name);
 void			ft_solve(t_env *env);
 void			ft_print_solution(t_env *env);
 int				ft_x_pos(int absolute_pos, t_env *env);

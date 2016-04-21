@@ -6,7 +6,6 @@ SRC_DIR = ./src/
 
 SRC_FILES = main.c					\
  			ft_print_solution.c		\
- 			ft_save_tetriminos.c	\
  			ft_solve.c				\
  			ft_test_input.c			\
  			ft_position.c			\
