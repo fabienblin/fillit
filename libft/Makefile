@@ -27,7 +27,7 @@ SRC		=	ft_memset.c		ft_strcat.c		ft_isdigit.c	ft_striter.c	ft_putchar.c	\
 			ft_strlen.c		ft_strcmp.c		ft_memdel.c		ft_strjoin.c	ft_putnbr_fd.c	\
 			ft_strdup.c		ft_strncmp.c	ft_strnew.c		ft_strtrim.c	$(BONUS)		\
 			ft_strcpy.c		ft_atoi.c		ft_strdel.c		ft_strsplit.c	$(FBLIN)		\
-			ft_strncpy.c	ft_isalpha.c	ft_strclr.c		ft_itoa.c		
+			ft_strncpy.c	ft_isalpha.c	ft_strclr.c		ft_itoa.c
 
 OBJ		=	$(SRC:.c=.o)
 
