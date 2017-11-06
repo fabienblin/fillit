@@ -3,15 +3,17 @@
 
 int		main (int argc, char **argv)
 {
-	t_env	env;
 
-	ft_bzero(&env, sizeof(t_env));
+	t_env	*env;
+
+	if(!(env = ft_new_env()))
+		EXIT;
 	if (!(argc == 2))
 		EXIT;
 	ft_test_input(argv[1]);
-	set_env(&env, argv[1]);
-	printf("grid_size=%d\ngrid=%s",env.grid_size,env.grid);
-	//ft_solve(&env);
-	//ft_print_solution(&env);
+	ft_set_env(env, argv[1]);
+
+	ft_solve(env);
+	//ft_print_solution(env);
 	return (0);
 }
