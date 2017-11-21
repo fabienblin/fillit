@@ -1,25 +1,24 @@
-#include "../inc/fillit.h"
-#define LEN 4
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_solve.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fablin <fablin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/11/17 14:39:26 by fablin            #+#    #+#             */
+/*   Updated: 2017/11/21 13:22:41 by fablin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "fillit.h"
 
 void printflst(t_list *lst) {
-	while(lst)
+	while (lst)
 	{
 		printf("%c", ((t_tetri *)lst->content)->order);
 		lst = lst->next;
 	}
 	printf("\n");
-}
-
-void ft_swapptr(void **a, void **b)
-{
-	void *tmp;
-
-	if(a != b)
-	{
-		tmp = *a;
-		*a = *b;
-		*b = tmp;
-	}
 }
 
 t_list *ft_getlst(t_list *lst, int i)
@@ -29,7 +28,7 @@ t_list *ft_getlst(t_list *lst, int i)
 
 	getlst = lst;
 	j = 0;
-	while(j < i)
+	while (j < i)
 	{
 		getlst = getlst->next;
 		j++;
@@ -37,36 +36,56 @@ t_list *ft_getlst(t_list *lst, int i)
 	return (getlst);
 }
 
-void ft_permute(t_list *lst, int a, int n)
+//test toutes les positions de tous les tetri dans une grille de taille fixe
+int ft_nassim(t_env *env)
 {
-	int i;
-	void *A;
-	void *B;
+	(void)env;
+	int	solved;
+	solved = 0;
+	return (solved);
+}
 
-	if(n == a)
+//realloue la grille en incrementant sa taille de 1
+int	ft_increment_grid(t_env *env)
+{
+	char	**new_grid;
+	char	**old_grid;
+	int		new_size;
+	int		old_size;
+	
+	old_size = env->grid_size;
+	new_size = old_size + 1;
+	if(!(new_grid = ft_new_grid(new_size, new_size)))
+		return (0);
+	old_grid = env->grid;
+	env->grid = new_grid;
+	env->grid_size = new_size;
+	//free old_grid
+	while(old_size--)
 	{
-		//printflst(lst);
+		free(*old_grid++);
 	}
-	else
-	{
-		i = 0;
-		while(i < n - a)
-		{
-			A = ft_getlst(lst, a);
-			B = ft_getlst(lst, a + i);
-			ft_swapptr(&A, &B);
-			ft_permute(lst, a + 1, n);
-			ft_swapptr(&A, &B);
-			i++;
-		}
-	}
+	//free(old_grid);
+	return(1);
 }
 
 int	ft_solve(t_env *env)
 {
-	int len = LEN;
-	t_list *lst = env->tetri_lst;
-	ft_permute(lst, 0, len);
+	//int len = 3;
+	(void)env;
+	//t_list *lst = env->tetri_lst;
+	//char lst[4] = "abc\0";
+	//test les tetri et incremente la taille de la grille
+	int limit = 5;
+	while (ft_nassim(env) == 0 && limit--)
+	{
+		if(!(ft_increment_grid(env)))
+			return (0);
+		ft_putstr("grid (");
+		ft_putnbr(SIZE);
+		ft_putstr(")\n");
+		ft_print_solution(env);
+	}
 	//printflst(lst);
-	return (0);
+	return (1);
 }

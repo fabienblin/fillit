@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_new_env.c                                       :+:      :+:    :+:   */
+/*   ft_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fablin <fablin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fblin <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/17 14:29:51 by fablin            #+#    #+#             */
-/*   Updated: 2017/11/17 14:42:38 by fablin           ###   ########.fr       */
+/*   Created: 2015/11/25 12:51:55 by fblin             #+#    #+#             */
+/*   Updated: 2017/11/14 16:57:42 by fablin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fillit.h"
+#include "libft.h"
 
-t_env	*ft_new_env()
+void	*ft_realloc(void **mem, size_t size)
 {
-	t_env	*new;
+	void	*realloc;
 
-	if(!(new = (t_env *)malloc(sizeof(*new))))
+	realloc = NULL;
+	if (!(realloc = (void *)malloc(size)))
 		return (NULL);
-	new->grid_size = 0;
-	new->grid = NULL;
-	new->tetri_lst = NULL;
-	return (new);
+	if (*mem)
+	{
+		ft_memcpy(realloc, *mem, size);
+		free(*mem);
+		*mem = realloc;
+	}
+	return (realloc);
 }

@@ -1,4 +1,16 @@
-#include "../inc/fillit.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_test_input.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fablin <fablin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/11/17 14:39:34 by fablin            #+#    #+#             */
+/*   Updated: 2017/11/17 16:10:36 by fablin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "fillit.h"
 
 void	ft_valid_count(char *tetri)
 {
@@ -30,7 +42,7 @@ void	ft_valid_count(char *tetri)
 
 void	ft_valid_length(char *tetri)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (i < 20)

@@ -1,17 +1,26 @@
-#include "../inc/fillit.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_print_solution.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fablin <fablin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/11/17 14:39:09 by fablin            #+#    #+#             */
+/*   Updated: 2017/11/21 13:17:16 by fablin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "fillit.h"
 
 void	ft_print_solution(t_env *env)
 {
 	int	i;
-	int	len;
 
 	i = 0;
-	len = SIZE * SIZE;
-	while (i < len)
+	while (i < SIZE)
 	{
-		write(1, &env->grid[i], 1);
+		write(1, env->grid[i], SIZE);
+		write(1, "\n", 1);
 		i++;
-		if (i % SIZE == 0)
-			ft_putchar('\n');
 	}
 }

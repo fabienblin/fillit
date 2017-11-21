@@ -1,29 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstpush.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fablin <fablin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fablin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/17 14:39:46 by fablin            #+#    #+#             */
-/*   Updated: 2017/11/19 20:37:10 by fablin           ###   ########.fr       */
+/*   Created: 2017/11/14 12:17:16 by fablin            #+#    #+#             */
+/*   Updated: 2017/11/14 12:18:24 by fablin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fillit.h"
+#include "libft.h"
 
-int		main (int argc, char **argv)
+void	ft_lstpush(t_list **alst, t_list *new)
 {
-	t_env	*env;
-
-	if (!(env = ft_new_env()))
-		EXIT;
-	if (!(argc == 2))
-		EXIT;
-	//ft_test_input(argv[1]);
-	ft_set_env(env, argv[1]);
-
-	ft_solve(env);
-	//ft_print_solution(env);
-	return (0);
+	if (*alst)
+		ft_lstpush(&(*alst)->next, new);
+	else
+		*alst = new;
 }

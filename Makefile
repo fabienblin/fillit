@@ -1,46 +1,64 @@
-NAME = fillit
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: fablin <fablin@student.42.fr>              +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2017/11/17 11:29:05 by fablin            #+#    #+#              #
+#    Updated: 2017/11/19 19:25:57 by fablin           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-INC_DIR = inc/
+NAME =		fillit
 
-SRC_DIR = ./src/
+INC_DIR =	./inc/
 
-SRC_FILES = main.c					\
- 			ft_print_solution.c		\
- 			ft_solve.c				\
- 			ft_test_input.c			\
- 			ft_position.c			\
+SRC_DIR =	./src/
+
+OBJ_DIR =	./obj/
+
+C_FILES =	main.c					\
+			ft_print_solution.c		\
+			ft_solve.c				\
+			ft_test_input.c			\
+			ft_position.c			\
 			ft_set_env.c			\
 			ft_new_env.c			\
 			ft_new_tetri.c
 
-O_FILES = $(SRC_FILES:.c=.o)
+O_FILES =	$(C_FILES:.c=.o)
 
-CC = gcc
+SOURCES =	$(addprefix $(SRC_DIR), $(C_FILES))
 
-CC_FLAGS = -Wall -Werror -Wextra
+OBJECTS =	$(addprefix $(OBJ_DIR), $(O_FILES))
 
-I_LIBFT = -Ilibft
+CC =		gcc
 
-LIBFT = -Llibft $(I_LIBFT) -lft
+CC_FLAGS =	-Wall -Werror -Wextra
+
+I_LIBFT = -I ./libft/inc
 
 all: $(NAME)
 
-$(NAME): $(O_FILES)
+$(NAME):$(OBJECTS)
 	@make -C libft
-	@$(CC) $(CC_FLAGS) -o $(NAME) $^ -I$(INC_DIR) $(LIBFT)
+	@$(CC) $(OBJECTS) -I ./inc/ -I ./libft/inc/ -L libft/ -lft -o $(NAME)
 	@echo "$(NAME) is ready :)"
 
-%.o: $(SRC_DIR)%.c
-	@$(CC) $(CC_FLAGS) -I$(INC_DIR) -o $@ -c $< $(I_LIBFT)
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c
+	@mkdir -p $(OBJ_DIR)
+	@gcc $(CC_FLAGS) -c $< -o $@ -I ./inc/ -I ./libft/inc/
 
 clean:
 	@make clean -C libft
-	@rm -f $(O_FILES)
+	@rm -fr $(OBJ_DIR)
 
 fclean: clean
 	@make fclean -C libft
 	@rm -f $(NAME)
 
 re: fclean all
+	@make re -C libft
 
 .PHONY: all clean fclean re

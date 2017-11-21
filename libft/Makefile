@@ -3,48 +3,67 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fblin <marvin@42.fr>                       +#+  +:+       +#+         #
+#    By: fablin <fablin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2015/12/04 12:33:02 by fblin             #+#    #+#              #
-#    Updated: 2016/02/14 13:47:11 by fblin            ###   ########.fr        #
+#    Created: 2017/11/09 11:25:26 by fablin            #+#    #+#              #
+#    Updated: 2017/11/19 19:57:46 by fablin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	=	libft.a
+NAME =		libft.a
 
-FBLIN	=	ft_exit.c
+INC_DIR =	./inc/
 
-BONUS	=	ft_lstnew.c		ft_lstdelone.c	ft_lstdel.c		ft_lstadd.c		ft_lstiter.c	\
-			ft_lstmap.c		\
+OBJ_DIR =	./obj/
 
-SRC		=	ft_memset.c		ft_strcat.c		ft_isdigit.c	ft_striter.c	ft_putchar.c	\
-			ft_bzero.c		ft_strncat.c	ft_isalnum.c	ft_striteri.c	ft_putstr.c		\
-			ft_memcpy.c		ft_strlcat.c	ft_isascii.c	ft_strmap.c		ft_putendl.c	\
-			ft_memccpy.c	ft_strchr.c		ft_isprint.c	ft_strmapi.c	ft_putnbr.c		\
-			ft_memmove.c	ft_strrchr.c	ft_toupper.c	ft_strequ.c		ft_putchar_fd.c	\
-			ft_memchr.c		ft_strstr.c		ft_tolower.c	ft_strnequ.c	ft_putstr_fd.c	\
-			ft_memcmp.c		ft_strnstr.c	ft_memalloc.c	ft_strsub.c		ft_putendl_fd.c	\
-			ft_strlen.c		ft_strcmp.c		ft_memdel.c		ft_strjoin.c	ft_putnbr_fd.c	\
-			ft_strdup.c		ft_strncmp.c	ft_strnew.c		ft_strtrim.c	$(BONUS)		\
-			ft_strcpy.c		ft_atoi.c		ft_strdel.c		ft_strsplit.c	$(FBLIN)		\
-			ft_strncpy.c	ft_isalpha.c	ft_strclr.c		ft_itoa.c
+SRC_DIR =	./src/
 
-OBJ		=	$(SRC:.c=.o)
+FABLIN =	ft_exit.c		ft_realloc.c	ft_lstpush.c	ft_lstdup.c		\
+			ft_swapptr.c
 
-FLAGS	=	-Wall -Wextra -Werror
+BONUS =		ft_lstnew.c		ft_lstdelone.c	ft_lstdel.c		ft_lstadd.c		\
+			ft_lstiter.c	ft_lstmap.c
 
-INC		=	./includes
+C_FILES =	ft_memset.c		ft_strcat.c		ft_isdigit.c	ft_striter.c	\
+			ft_putchar.c 	ft_bzero.c		ft_strncat.c	ft_isalnum.c	\
+			ft_striteri.c	ft_putstr.c		ft_memcpy.c		ft_strlcat.c	\
+			ft_isascii.c	ft_strmap.c		ft_putendl.c	ft_memccpy.c	\
+			ft_strchr.c		ft_isprint.c	ft_strmapi.c	ft_putnbr.c		\
+			ft_memmove.c	ft_strrchr.c	ft_toupper.c	ft_strequ.c		\
+			ft_putchar_fd.c	ft_memchr.c		ft_strstr.c		ft_tolower.c	\
+			ft_strnequ.c	ft_putstr_fd.c	ft_memcmp.c		ft_strnstr.c	\
+			ft_memalloc.c	ft_strsub.c		ft_putendl_fd.c	ft_strlen.c		\
+			ft_strcmp.c		ft_memdel.c		ft_strjoin.c	ft_putnbr_fd.c	\
+		 	ft_strdup.c		ft_strncmp.c	ft_strnew.c		ft_strtrim.c	\
+			ft_strcpy.c		ft_atoi.c		ft_strdel.c		ft_strsplit.c	\
+			ft_strncpy.c	ft_isalpha.c	ft_strclr.c		ft_itoa.c		\
+			$(BONUS)		$(FABLIN)
+			
+O_FILES =	$(C_FILES:.c=.o)
 
-all		:	$(NAME)
+SOURCES =	$(addprefix $(SRC_DIR), $(C_FILES))
 
-$(NAME)	:
-			gcc $(FLAGS) -c $(SRC) -I $(INC)
-			ar rc $(NAME) $(OBJ)
+OBJECTS =	$(addprefix $(OBJ_DIR), $(O_FILES))
 
-clean	:
-			rm -rf $(OBJ)
+CC_FLAGS =		-Wall -Wextra -Werror
 
-fclean	:	clean
-			rm -rf $(NAME)
+all : $(NAME)
 
-re		:	fclean all
+$(NAME) : $(O_FILES)
+	@ar rc $(NAME) $(O_FILES)
+	@mkdir -p $(OBJ_DIR)
+	@mv $(O_FILES) $(OBJ_DIR)
+	@echo "\n===> LIBFT HAS BEEN COMPILED <===\n"
+
+%.o: $(SRC_DIR)%.c
+	@gcc $(CC_FLAGS) -c $< -o $@ -I $(INC_DIR)
+
+clean :
+	@rm -rf $(OBJ_DIR)
+
+fclean : clean
+	@rm -rf $(NAME)
+
+re : fclean all
+
+.PHONY: all clean fclean re
