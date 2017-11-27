@@ -1,26 +1,60 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   ft_print_solution.c                              .::    .:/ .      .::   */
+/*   ft_set_tetri_ext.c                               .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: fablin <fablin@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2017/11/17 14:39:09 by fablin       #+#   ##    ##    #+#       */
-/*   Updated: 2017/11/27 10:02:15 by fablin      ###    #+. /#+    ###.fr     */
+/*   Created: 2017/11/27 13:40:11 by fablin       #+#   ##    ##    #+#       */
+/*   Updated: 2017/11/27 13:40:53 by fablin      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-void	ft_print_solution(t_env *env)
+int		ft_set_tetri_origin(char *data)
 {
+	int	xorigin;
+	int	yorigin;
 	int	i;
 
+	xorigin = 4;
+	yorigin = 3;
 	i = 0;
-	while (i < env->grid_size)
+	while (i < 20)
 	{
-		ft_putendl(env->grid[i]);
+		if (data[i] == '#')
+		{
+			if (i % 5 < xorigin)
+				xorigin = i % 5;
+			if (i / 5 < yorigin)
+				yorigin = i / 5;
+		}
 		i++;
 	}
+	return (xorigin + 5 * yorigin);
+}
+
+int		ft_set_tetri_end(char *data)
+{
+	int xend;
+	int yend;
+	int i;
+
+	xend = 0;
+	yend = 0;
+	i = 0;
+	while (i < 20)
+	{
+		if (data[i] == '#')
+		{
+			if (i % 5 > xend)
+				xend = i % 5;
+			if (i / 5 > yend)
+				yend = i / 5;
+		}
+		i++;
+	}
+	return (xend + 5 * yend);
 }

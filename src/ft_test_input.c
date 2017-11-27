@@ -1,13 +1,14 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_test_input.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fablin <fablin@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/17 14:39:34 by fablin            #+#    #+#             */
-/*   Updated: 2017/11/17 16:10:36 by fablin           ###   ########.fr       */
-/*                                                                            */
+/*                                                          LE - /            */
+/*                                                              /             */
+/*   ft_test_input.c                                  .::    .:/ .      .::   */
+/*                                                 +:+:+   +:    +:  +:+:+    */
+/*   By: fablin <fablin@student.le-101.fr>          +:+   +:    +:    +:+     */
+/*                                                 #+#   #+    #+    #+#      */
+/*   Created: 2017/11/17 14:39:34 by fablin       #+#   ##    ##    #+#       */
+/*   Updated: 2017/11/27 10:09:00 by fablin      ###    #+. /#+    ###.fr     */
+/*                                                         /                  */
+/*                                                        /                   */
 /* ************************************************************************** */
 
 #include "fillit.h"
@@ -31,13 +32,10 @@ void	ft_valid_count(char *tetri)
 			count_retu++;
 		tetri++;
 	}
-	if ((count_full != 4) 
-		|| (count_empt != 12) 
+	if ((count_full != 4)
+		|| (count_empt != 12)
 		|| (count_retu != 4))
-	{
-		ft_putendl("valid_count failed");
 		EXIT;
-	}
 }
 
 void	ft_valid_length(char *tetri)
@@ -50,14 +48,10 @@ void	ft_valid_length(char *tetri)
 		if ((i % 5) < 4)
 		{
 			if (!(tetri[i] == '#' || tetri[i] == '.'))
-			{		ft_putendl("valid_length b failed");
 				EXIT;
-			}
 		}
 		else if (!(tetri[i] == '\n'))
-		{		ft_putendl("valid_length c failed");
 			EXIT;
-		}
 		i++;
 	}
 }
@@ -81,13 +75,12 @@ int		ft_element_is_valid(char **elements, char *subject)
 
 void	ft_valid_figure(char *tetri)
 {
-	char *elements[4];
-	int	i;
-	int	valid;
-	char *tetri_test = tetri;
+	char	*elements[4];
+	int		i;
+	int		valid;
 
 	i = 0;
-	while(*tetri)
+	while (*tetri)
 	{
 		if (*tetri == '#')
 			elements[i++] = tetri;
@@ -101,10 +94,7 @@ void	ft_valid_figure(char *tetri)
 		i++;
 	}
 	if (valid < 3)
-	{
-		printf("valid_figure fail : valid = %d on tetri : \n%s\n", valid, tetri_test);
 		EXIT;
-	}
 }
 
 void	ft_test_input(char *file_name)
@@ -127,9 +117,6 @@ void	ft_test_input(char *file_name)
 			EXIT;
 	}
 	if (read_ret == -1)
-	{
-		ft_putendl("test_input failed");
 		EXIT;
-	}
 	close(fd);
 }

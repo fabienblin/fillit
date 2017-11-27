@@ -1,91 +1,120 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_solve.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fablin <fablin@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/17 14:39:26 by fablin            #+#    #+#             */
-/*   Updated: 2017/11/21 13:22:41 by fablin           ###   ########.fr       */
-/*                                                                            */
+/*                                                          LE - /            */
+/*                                                              /             */
+/*   ft_solve.c                                       .::    .:/ .      .::   */
+/*                                                 +:+:+   +:    +:  +:+:+    */
+/*   By: fablin <fablin@student.le-101.fr>          +:+   +:    +:    +:+     */
+/*                                                 #+#   #+    #+    #+#      */
+/*   Created: 2017/11/17 14:39:26 by fablin       #+#   ##    ##    #+#       */
+/*   Updated: 2017/11/27 13:45:18 by fablin      ###    #+. /#+    ###.fr     */
+/*                                                         /                  */
+/*                                                        /                   */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-void printflst(t_list *lst) {
-	while (lst)
+int		ft_isvalidpos(char **grid, int pos, t_tetri *tetri, int s)
+{
+	char	**d;
+	int		i;
+	int		j;
+	int		isvalidpos;
+
+	d = tetri->data;
+	isvalidpos = 0;
+	i = 0;
+	if ((s - pos % s < tetri->x || s - pos / s < tetri->y))
+		return (0);
+	while (d[i])
 	{
-		printf("%c", ((t_tetri *)lst->content)->order);
-		lst = lst->next;
+		j = 0;
+		while (d[i][j])
+		{
+			if (d[i][j] == '#' && grid[i + pos / s][j + pos % s] == '.')
+				isvalidpos++;
+			if (d[i][j] == '#' && ft_isalpha(grid[i + pos / s][j + pos % s]))
+				return (0);
+			j++;
+		}
+		i++;
 	}
-	printf("\n");
+	return (isvalidpos == 4 ? 1 : 0);
 }
 
-t_list *ft_getlst(t_list *lst, int i)
+void	ft_place_tetri(char **grid, int pos, t_tetri *tetri, int size)
 {
-	t_list *getlst;
+	char	**d;
+	int		i;
+	int		j;
+
+	d = tetri->data;
+	i = 0;
+	while (d[i])
+	{
+		j = 0;
+		while (d[i][j])
+		{
+			if (d[i][j] == '#' && grid[i + pos / size][j + pos % size] == '.')
+				grid[i + pos / size][j + pos % size] = tetri->order;
+			j++;
+		}
+		i++;
+	}
+}
+
+void	ft_remove_tests(char **grid, t_tetri *tetri, int size)
+{
+	int i;
 	int j;
 
-	getlst = lst;
-	j = 0;
-	while (j < i)
+	i = 0;
+	while (i < size)
 	{
-		getlst = getlst->next;
-		j++;
+		j = 0;
+		while (j < size)
+		{
+			if (grid[i][j] >= tetri->order && ft_isalnum(grid[i][j]))
+				grid[i][j] = '.';
+			j++;
+		}
+		i++;
 	}
-	return (getlst);
 }
 
-//test toutes les positions de tous les tetri dans une grille de taille fixe
-int ft_nassim(t_env *env)
+int		ft_recurse(char **grid, t_list *lst, int size)
 {
-	(void)env;
-	int	solved;
-	solved = 0;
-	return (solved);
-}
+	int		pos;
+	int		volume;
+	t_tetri	*tetri;
 
-//realloue la grille en incrementant sa taille de 1
-int	ft_increment_grid(t_env *env)
-{
-	char	**new_grid;
-	char	**old_grid;
-	int		new_size;
-	int		old_size;
-	
-	old_size = env->grid_size;
-	new_size = old_size + 1;
-	if(!(new_grid = ft_new_grid(new_size, new_size)))
+	if (lst)
+	{
+		pos = 0;
+		volume = size * size;
+		tetri = (t_tetri *)lst->content;
+		while (pos < volume)
+		{
+			if (ft_isvalidpos(grid, pos, tetri, size))
+			{
+				ft_place_tetri(grid, pos, tetri, size);
+				if (ft_recurse(grid, lst->next, size) == 0)
+					ft_remove_tests(grid, tetri, size);
+				else
+					return (1);
+			}
+			pos++;
+		}
 		return (0);
-	old_grid = env->grid;
-	env->grid = new_grid;
-	env->grid_size = new_size;
-	//free old_grid
-	while(old_size--)
-	{
-		free(*old_grid++);
 	}
-	//free(old_grid);
-	return(1);
+	return (1);
 }
 
-int	ft_solve(t_env *env)
+int		ft_solve(t_env *env)
 {
-	//int len = 3;
-	(void)env;
-	//t_list *lst = env->tetri_lst;
-	//char lst[4] = "abc\0";
-	//test les tetri et incremente la taille de la grille
-	int limit = 5;
-	while (ft_nassim(env) == 0 && limit--)
+	while (ft_recurse(env->grid, env->tetri_lst, env->grid_size) == 0)
 	{
-		if(!(ft_increment_grid(env)))
+		if (!(ft_increment_grid(env)))
 			return (0);
-		ft_putstr("grid (");
-		ft_putnbr(SIZE);
-		ft_putstr(")\n");
-		ft_print_solution(env);
 	}
-	//printflst(lst);
 	return (1);
 }
