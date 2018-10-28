@@ -36,5 +36,5 @@ EEFFGG.
 
 ## Author
 
-* **Fabien Blin** @ le-101
+* **Fabien Blin** @ Le-101
 
